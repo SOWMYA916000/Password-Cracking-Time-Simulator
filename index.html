@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureLab | Password Time Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <div>
+                <h2>SecureLab</h2>
+                <p>CYBERSECURITY LAB</p>
+            </div>
+        </div>
+
+        <p class="nav-label">WORKSPACE</p>
+        <div class="nav-item active">▦ &nbsp; Password Simulator</div>
+        <div class="nav-item">◈ &nbsp; Security Analysis</div>
+
+        <div class="sidebar-bottom">
+            <span class="status-dot"></span>
+            <div>
+                <strong>Local simulation</strong>
+                <p>Password stays in your browser</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">WORKSPACE / SIMULATOR</p>
+                <h1>Password Time Simulator</h1>
+            </div>
+            <span class="mode-badge">● EDUCATIONAL MODE</span>
+        </header>
+
+        <section class="intro">
+            <div>
+                <p class="eyebrow">PASSWORD SECURITY ANALYTICS</p>
+                <h2>How long could guessing<br>your password take?</h2>
+                <p class="muted">
+                    Enter a sample password to estimate its theoretical
+                    exhaustive-guessing time.
+                </p>
+            </div>
+            <div class="shield">⬡</div>
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <h2>Password Analysis</h2>
+                    <p>Use a sample password, not a real or reused password.</p>
+                </div>
+                <button class="secondary-btn" id="clearBtn">Clear</button>
+            </div>
+
+            <div class="panel">
+                <label for="password">Enter sample password</label>
+                <div class="password-wrap">
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Type a sample password..."
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <button type="button" id="toggleBtn"
+                            class="toggle-btn">Show</button>
+                </div>
+
+                <div class="privacy-note">
+                    <span>🔒</span>
+                    <span>This demo analyzes your input locally. It does not
+                    transmit or store the password.</span>
+                </div>
+
+                <div class="settings-grid">
+                    <div>
+                        <label for="speed">Hypothetical guessing speed</label>
+                        <select id="speed">
+                            <option value="1000">1,000 guesses / second</option>
+                            <option value="1000000" selected>
+                                1 million guesses / second
+                            </option>
+                            <option value="1000000000">
+                                1 billion guesses / second
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="mode">Estimate type</label>
+                        <select id="mode">
+                            <option value="average" selected>
+                                Average exhaustive search
+                            </option>
+                            <option value="worst">Worst case</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="primary-btn" id="analyzeBtn">
+                    Analyze password <span>→</span>
+                </button>
+                <p class="field-help">
+                    Analysis runs in this browser. Changing the guessing speed
+                    updates the estimate.
+                </p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-heading">
+                <div>
+                    <h2>Analysis Results</h2>
+                    <p>Mathematical estimates based on the detected character set.</p>
+                </div>
+                <span class="live-badge">● SIMULATION</span>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card highlight">
+                    <p>ESTIMATED GUESSING TIME</p>
+                    <h3 id="estimatedTime">—</h3>
+                    <span id="estimateLabel">Enter a sample password</span>
+                </div>
+                <div class="metric-card">
+                    <p>POSSIBLE COMBINATIONS</p>
+                    <h3 id="combinations">—</h3>
+                    <span>Search space size</span>
+                </div>
+                <div class="metric-card">
+                    <p>THEORETICAL ENTROPY</p>
+                    <h3 id="entropy">—</h3>
+                    <span>Bits, assuming random characters</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="panel">
+                    <h3>Password Characteristics</h3>
+                    <div class="stats">
+                        <div><span>Length</span><strong id="length">—</strong></div>
+                        <div><span>Lowercase letters</span><strong id="lower">—</strong></div>
+                        <div><span>Uppercase letters</span><strong id="upper">—</strong></div>
+                        <div><span>Digits</span><strong id="digits">—</strong></div>
+                        <div><span>Symbols / other characters</span><strong id="symbols">—</strong></div>
+                        <div><span>Detected character pool</span><strong id="pool">—</strong></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Time by Guessing Speed</h3>
+                    <p class="field-help">Same sample and character-set assumption.</p>
+                    <div class="chart-container">
+                        <canvas id="speedChart"></canvas>
+                    </div>
+                    <p id="chartFallback" class="field-help" hidden>
+                        The chart library could not load. The estimate above
+                        still works.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel insight-panel">
+                <div class="insight-icon">↗</div>
+                <div>
+                    <h3 id="insightTitle">Security insight</h3>
+                    <p id="insightText">
+                        Enter a sample password to view the analysis.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>
+                SecureLab · Educational simulator only · No real accounts
+                are accessed.
+            </p>
+            <p>
+                Real attack times depend on password predictability,
+                hashing methods, hardware, and security controls.
+            </p>
+        </footer>
+    </main>
+</div>
+</body>
+</html>
